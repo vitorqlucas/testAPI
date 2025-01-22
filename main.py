@@ -12,12 +12,15 @@ UPLOAD_DIR = "uploaded_files"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @app.post("/")
-async def create_upload_file(file: UploadFile = File(...), return_url: bool = False):
+async def create_upload_file(file: UploadFile = File(...), name: str = "Default Name", return_url: bool = False):
     # Ler e modificar o arquivo Excel
     file.file.seek(0)  # Voltar ao início do arquivo
     wb = load_workbook(file.file)
     sheet = wb.active
-    sheet["A1"] = "Vitor"  # A célula A1 recebe o valor "Vitor"
+
+    # Usar o parâmetro 'name' para modificar o Excel dinamicamente
+    if name:
+        sheet["A1"] = name  # A célula A1 recebe o valor do parâmetro 'name'
 
     if return_url:
         # Salvar o arquivo no servidor local
