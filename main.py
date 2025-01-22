@@ -6,7 +6,7 @@ import io
 
 app = FastAPI()
 
-@app.post("/uploadfile/")
+@app.post("/")
 async def create_upload_file(file: UploadFile = File(...)):
     # Forçar o pandas a usar o engine openpyxl para ler o arquivo Excel
     df = pd.read_excel(file.file, engine="openpyxl")
